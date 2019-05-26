@@ -1,3 +1,4 @@
+# MinHeap
 class MinHeap:
     def __init__(self):
         self.heaplist = [0]
@@ -54,3 +55,57 @@ minHeap = MinHeap()
 minHeap.buildHeap([9, 5, 6, 2, 3])
 print(minHeap.delMin())
 print(minHeap.delMin())
+
+
+class MaxHeap:
+    def __init__(self):
+        self.maxhlist = [0]
+        self.currentSize = 0
+
+    def sift_up(self, i):
+        parent = i // 2
+        while (parent > 0):
+            if self.maxhlist[i] > self.maxhlist[parent]:
+                self.maxhlist[i], self.maxhlist[parent] = self.maxhlist[parent], self.maxhlist[i]
+            i = parent
+
+    def insert(self, k):
+        self.maxhlist.append(k)
+        self.currentSize += 1
+        self.sift_up(self.currentSize - 1)
+
+    def sinkDown(self, i):
+        child = 2 * i
+        while (i * 2) <= self.currentSize:
+            if child + 1 >= self.currentSize:
+                mc = child  # 最大的子节点
+            if child + 1 <= self.currentSize and self.maxhlist[child] < self.maxhlist[child + 1]:
+                mc = child + 1
+            if child + 1 <= self.currentSize and self.maxhlist[child] > self.maxhlist[child + 1]:
+                mc = child
+            if self.maxhlist[i] < self.maxhlist[mc]:
+                self.maxhlist[i], self.maxhlist[mc] = self.maxhlist[mc], self.maxhlist[i]
+            i = mc
+
+    def delMax(self):
+        retval = self.maxhlist[1]
+        self.maxhlist[1] = self.maxhlist[self.currentSize]
+        self.currentSize -= 1
+        self.maxhlist.pop()
+        self.sinkDown(1)
+        return retval
+
+    def buildMH(self, alist):
+        i = len(alist) // 2
+        self.currentSize = len(alist)
+        self.maxhlist = [0] + alist[:]
+        while i > 0:
+            self.sinkDown(i)
+            i -= 1
+
+# MaxHeap
+maxHeap = MaxHeap()
+maxHeap.buildMH([10, 5, 6, 2, 3])
+print(maxHeap.delMax())
+print(maxHeap.delMax())
+print(maxHeap.delMax())
