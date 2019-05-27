@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # numpy部分基础操作
 a = np.array([i for i in range(10)])
@@ -100,3 +101,34 @@ s1 = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
 res4 = df1.append(s1, ignore_index=True)
 print("\n")
 print(res4)
+
+# matplotlib 画图的基本操作
+x = np.linspace(-3, 3, 50)
+y1 = 2 * x + 1
+y2 = x ** 2
+plt.figure(num=3, figsize=(8, 5))  # 定义图像窗口，编号为3，大小为（8，5）
+plt.plot(x, y1, label = 'linear line')
+plt.plot(x, y2, color='red', linewidth=1.0, linestyle='--',label='square line')
+plt.xlim((-1, 2))
+plt.ylim((-2, 3))
+new_ticks = np.linspace(-1,2,6)
+plt.xticks(new_ticks)
+# 设置坐标轴的刻度和名称
+plt.yticks([-2,-1.8,-1,1.22,3],[r'$real\ bad$',r'$bad$',r'$normal$',r'$good$',r'$real\ good$'])
+# 调整坐标轴
+ax = plt.gca()
+# ax = plt.gca() # 获取当前坐标轴信息
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.spines["bottom"].set_position(('data',0))
+ax.yaxis.set_ticks_position('left')
+ax.spines["left"].set_position(('data',0))
+plt.legend(loc='upper right')
+# 增加标注信息
+x0 = 0.2
+y0 = 2*x0 + 1
+plt.plot([x0,x0],[0,y0],'k--',linewidth = 2.5)
+plt.annotate(r'$2x+1=%s$'%y0,xy=(x0,y0),xycoords='data',
+             xytext=(+30,-30),textcoords='offset points',fontsize = 16)
+plt.show()
